@@ -42,7 +42,6 @@ const columns = (props) => [
 ]
 
 const AllLocalPurchaseOrders = (props) => {
-  const [ lpos, setLpos ] = React.useState([])
   const [loading, setLoading] = React.useState(false)
   const [view, setView] = useState(false)
   const [selectedLpo, setSelectedLpo]= useState(null)

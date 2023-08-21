@@ -1,5 +1,5 @@
 import { SyncOutlined } from '@ant-design/icons'
-import { Badge, Button, Col, Row, Table, Drawer, Pagination, message, Divider } from 'antd'
+import { Badge, Button, Col, Row, Table, Drawer, Pagination, message, Divider, Select } from 'antd'
 import React, { useState } from 'react'
 import { downloadLPODocument } from '../../../services/api/local-purchase-order'
 import MyPageHeader from '../../../shared/MyPageHeader'
@@ -113,6 +113,8 @@ const CreateLPO = (props) => {
     submitting_local_purchase_order,
     submit_local_purchase_order_success,
     local_purchase_orders_meta,
+    suppliers,
+    fetchSuppliers,
   } = props
 
   const handleCreateLocalPurchaseOrder = (row)=> {
@@ -157,17 +159,20 @@ const CreateLPO = (props) => {
       draftAwaitingApproval: true,
       pageNo: page - 1,
       pageSize: local_purchase_orders_meta?.pageSize,
+      supplierName: filter
     }
     fetchLocalPurchaseOrderDrafts(query)
   }
 
   React.useEffect(()=> {
     //fetchLpos()
+    fetchSuppliers({})
     resetLocalPurchaseOrder()
     fetchLocalPurchaseOrderDrafts({
       draftAwaitingApproval: true,
       pageSize: local_purchase_orders_meta?.pageSize,
       pageNo: local_purchase_orders_meta?.currentPage,
+      supplierName: filter
     })
   }, [])
 
@@ -210,7 +215,26 @@ const CreateLPO = (props) => {
           </Row>
         )}
         extra={[
-          
+          <Select 
+            showSearch
+            style={{width: 400}}
+            placeholder="Search to Select"
+            optionFilterProp="children"
+            options={suppliers.map(supplier => {
+              return {label: supplier?.name, value:supplier?.name}
+            })}
+            filterOption={(input, option) => {
+              setFilter(input || '')
+              return option?.label?.toLowerCase().includes(input?.toLowerCase())
+            }}
+            value={filter}
+            allowClear
+            onSelect={value => handleOnSearch(value)}
+            onClear={() => {
+              setFilter('')
+              handleOnSearch('')
+            }}
+          />
         ]}
       />
       
