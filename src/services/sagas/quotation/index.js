@@ -58,7 +58,7 @@ export function* createQuotation(action) {
   try {
     const response = yield call(createQuotationApi, payload)
     if(response.status === RESPONSE_SUCCESS_CODE) {
-      yield put(Creators.createQuotationSuccess(response.data))
+      yield put(Creators.createQuotationSuccess(response?.data))
       message.success("Quotation Document Addedd Successfully")
     } else {
       message.error("Upload failed!")
@@ -66,7 +66,7 @@ export function* createQuotation(action) {
     }
   } catch (error) {
     console.log('err: ', error)
-    const errors = error?.response?.data?.errors
+    const errors = error?.response?.data?.errors || []
     message.error("Failed!")
     yield put(Creators.createQuotationFailure(errors[0]))
   }
