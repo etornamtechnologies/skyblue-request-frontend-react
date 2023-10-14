@@ -7,6 +7,7 @@ import List from './components/PaymentList'
 import { Creators as SupplierCreators } from '../../services/redux/supplier/actions'
 import { Creators as PaymentCreators } from '../../services/redux/payment/actions'
 import { connect } from 'react-redux'
+import AuditQuotationView from './components/Quotations'
 
 const Audit = (props) => {
   const { path } = useRouteMatch()
@@ -16,6 +17,7 @@ const Audit = (props) => {
         <Switch>
           <AuthenticatedRoute path={`${path}/approve-payment`} component={Approve} {...props} />
           <AuthenticatedRoute path={`${path}/payments`} component={List} {...props} />
+          <AuthenticatedRoute path={`${path}/quotations`} component={AuditQuotationView} />
         </Switch>
       </AppLayout>
     </React.Fragment>

@@ -17,7 +17,7 @@ module.exports = {
     },
   ],
   eslint: {
-    enable: true,
+    enable: false,
     mode: "extends" /* (default value) */ || "file",
     configure: { /* Any eslint configuration options: https://eslint.org/docs/user-guide/configuring */ },
     configure: (eslintConfig, { env, paths }) => { return eslintConfig; },

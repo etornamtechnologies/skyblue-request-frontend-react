@@ -44,7 +44,8 @@ import {
 	watchFetchQuotations,
 	watchUpdateQuotation,
 	watchCreateQuotation,
-	watchGenerateQuotation
+	watchGenerateQuotation,
+  watchApproveQuotation
 } from './quotation'
 
 import {
@@ -158,6 +159,7 @@ export default function* rootSaga() {
 		watchUpdateQuotation(),
 		watchCreateQuotation(),
 		watchGenerateQuotation(),
+    watchApproveQuotation(),
 
 		watchFetchRequestCategories(),
 		watchCreateRequestCategory(),

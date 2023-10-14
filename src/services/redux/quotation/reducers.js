@@ -56,6 +56,18 @@ export const updateQuotationFailure = (state = INITIAL_STATE, action) => {
   return { ...state, submitting: false, error: action.error, submitSuccess: false};
 };
 
+export const approveQuotation = (state = INITIAL_STATE, action) => {
+  return { ...state, submitting: true, submitSuccess: false };
+};
+
+export const approveQuotationSuccess = (state = INITIAL_STATE, action) => {
+  return { ...state, submitting: false, submitSuccess: true };
+};
+
+export const approveQuotationFailure = (state = INITIAL_STATE, action) => {
+  return { ...state, submitting: false, submitSuccess: false };
+};
+
 export const createQuotation = (state = INITIAL_STATE, action) => {
   return { ...state, submitting: true, submitSuccess: false };
 };
@@ -112,6 +124,10 @@ export const HANDLERS = {
   [Types.UPDATE_QUOTATION]: updateQuotation,
   [Types.UPDATE_QUOTATION_SUCCESS]: updateQuotationSuccess,
   [Types.UPDATE_QUOTATION_FAILURE]: updateQuotationFailure,
+
+  [Types.APPROVE_QUOTATION]: approveQuotation,
+  [Types.APPROVE_QUOTATION_SUCCESS]: approveQuotationSuccess,
+  [Types.APPROVE_QUOTATION_FAILURE]: approveQuotationFailure,
 
   [Types.CREATE_QUOTATION]: createQuotation,
   [Types.CREATE_QUOTATION_SUCCESS]: createQuotationSuccess,

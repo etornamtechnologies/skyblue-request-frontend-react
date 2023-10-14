@@ -1,8 +1,7 @@
 import { SyncOutlined } from '@ant-design/icons'
-import { Badge, Button, Card, Col, DatePicker, message, Row, Select, Spin, Table } from 'antd'
+import { Badge, Button, Card, Col, DatePicker, Row, Select, Spin, Table } from 'antd'
 import React from 'react'
-import * as paymentDraftService from '../../../services/api/payment-draft'
-import { prettifyDateTime, serializeQueryParams } from '../../../util/common-helper'
+import { prettifyDateTime } from '../../../util/common-helper'
 import { PAYMENT_APPROVE_STATUS } from '../../../util/datas'
 
 
@@ -61,7 +60,6 @@ const PaymentList = (props) => {
   const {
     fetchPayments,
     payments,
-    fetching_payments,
   } = props
   
   const { suppliers, fetchSuppliers, suppliersLoading } = props

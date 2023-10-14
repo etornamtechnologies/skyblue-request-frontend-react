@@ -1,11 +1,10 @@
-import { Card, Col, Row, Form, Input, Select, Button, Spin, Steps } from 'antd'
+import { Card, Col, Row, Form, Input, Select, Button, Steps } from 'antd'
 import React, { useState } from 'react'
 import { useParams } from 'react-router'
 import { PAYMENT_METHODS, PAYMENT_STATUS } from '../../../util/datas'
 // import * as paymentDraftService from '../../../services/api/payment-draft'
-import openNotification from '../../../util/notification'
 import { history } from '../../../util/browser-history'
-import { CheckCircleTwoTone, DollarTwoTone, FileExcelFilled, RightOutlined } from '@ant-design/icons'
+import { DollarTwoTone, FileExcelFilled, RightOutlined } from '@ant-design/icons'
 import GrnDocumentReview from '../../../presentation/GrnDocumentReview'
 import MyPageHeader from "../../../shared/MyPageHeader"
 
@@ -16,14 +15,12 @@ const NewPayment = (props) => {
   const {
     fetchGrn,
     grn,
-    fetchng_grns,
     createPayment,
     submit_payment_success,
     submitting_payment,
   } = props
   const [ form ] = Form.useForm()
   const [submitting, setSubmitting] = React.useState(false)
-  const [loading, setLoading] = React.useState(false)
   const [current, setCurrent] = useState(0)
   const { grnId } = useParams()
 
@@ -58,7 +55,9 @@ const NewPayment = (props) => {
     // if(grnId) {
     //   fetchGoodsReceiveNote(grnId)
     // }
+    
     fetchGrn(grnId)
+    //eslint-disable-next-line
   }, [grnId])
 
   React.useEffect(() => {
@@ -70,9 +69,6 @@ const NewPayment = (props) => {
   return (
     <React.Fragment>
       <Row>
-        {/* <Col md={24}>
-          <span className="bs-page-title">Make Payment</span>
-        </Col> */}
         <MyPageHeader 
           title="Make Payment"
           onBack={() => history.goBack()}
@@ -88,7 +84,6 @@ const NewPayment = (props) => {
       </Row>
       <Row>
         <Col md={24}>
-          {loading ? <Spin /> : 
             <Card>
               {current === 0 && (
                 <>
@@ -171,7 +166,6 @@ const NewPayment = (props) => {
               </Form>
               )}
             </Card>
-          }
         </Col>
       </Row>
     </React.Fragment>

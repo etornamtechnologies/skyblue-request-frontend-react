@@ -67,7 +67,11 @@ const ListQuotations = (props) => {
     fetchQuotations,
     filtered_quotations,
     quotationLoading,
-    resetQuotation
+    resetQuotation,
+    approveQuotation,
+    quotationSubmitSuccess,
+    quotationSubmitting,
+    currentUser
   } = props
   const [quotationViewVisible, setQuotationViewVisible] = useState(false)
   const [selectedQuotation, setSelectedQuotation] = useState(null)
@@ -94,6 +98,16 @@ const ListQuotations = (props) => {
     })
     // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    if(!quotationSubmitting && quotationSubmitSuccess) {
+      setQuotationViewVisible(false)
+      fetchQuotations({
+        requestType: UNDER_REVIEW
+      })
+    }
+    //eslint-disable-next-line
+  }, [quotationSubmitSuccess, quotationSubmitting])
 
   return (
     <>
@@ -158,6 +172,20 @@ const ListQuotations = (props) => {
           setQuotationViewVisible(false)
         }}
       >
+      <Row>
+        <Col span={24}>
+          <Button 
+            loading={quotationSubmitting} 
+            disabled={!userHasAnyRole(currentUser?.role, [EMPLOYEE_ROLE.ROLE_AUDITOR])}
+            onClick={e => {
+              console.log('----> select quotation id', selectedQuotation?.id)
+              approveQuotation([selectedQuotation?.quotation?.id])
+            }}
+          >
+            Approve
+          </Button>
+        </Col>
+      </Row>
         <QuotationDetails quotation={selectedQuotation} showItems={true} />
       </Drawer>
 
@@ -189,7 +217,7 @@ const ListQuotations = (props) => {
           onSubmit={(newComment) => {
             const payload = {
               'description': newComment,
-              'process': COMMENT_PROCESS_VALUES.PROCUREMENT_RESPONSE_TO_QUOTATION_REVIEW
+              'process': (currentUser?.role === EMPLOYEE_ROLE.ROLE_AUDITOR) ? COMMENT_PROCESS_VALUES.REVIEW_QUOTATION_AUDITOR : COMMENT_PROCESS_VALUES.PROCUREMENT_RESPONSE_TO_QUOTATION_REVIEW
             }
             props.createComment(COMMENT_TYPES.QUOTATION, selectedQuotation?.quotation?.id, payload)
           }}

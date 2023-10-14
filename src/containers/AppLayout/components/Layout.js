@@ -251,7 +251,7 @@ const CollapsibleLayout = (props) => {
             </Menu.SubMenu>
           }
           {authService.userHasAnyRole(currentUser.role, [EMPLOYEE_ROLE.ROLE_PROCUREMENT_OFFICER, EMPLOYEE_ROLE.ROLE_PROCUREMENT_MANAGER, 
-            EMPLOYEE_ROLE.ROLE_ADMIN]) && 
+            EMPLOYEE_ROLE.ROLE_ADMIN, EMPLOYEE_ROLE.ROLE_AUDITOR]) && 
             <Menu.Item key={`/app/quotations`}>
               <NavLink to={`/app/quotations`}>
                 <ProfileOutlined />

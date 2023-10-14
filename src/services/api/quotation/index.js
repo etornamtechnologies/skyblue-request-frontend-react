@@ -92,6 +92,15 @@ export function updateQuotation(quotationId, payload) {
   })
 }
 
+export function approveQuotation(payload) {
+  console.log('payload', payload)
+  return service({
+    url: `${path}/approvals`,
+    method: 'PUT',
+    data: payload
+  })
+}
+
 export function generateQuotationForUnregisteredSupplier(payload) {
   return service({
     url: `/quotations/generateQuoteForSupplier`,

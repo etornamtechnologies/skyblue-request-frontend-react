@@ -33,6 +33,7 @@ const GrnList = (props) => {
     fetchGrns({
       paymentInComplete: true
     })
+    //eslint-disable-next-line
   }, [])
 
   return (

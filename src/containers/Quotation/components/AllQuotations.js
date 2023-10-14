@@ -77,7 +77,6 @@ const ListAllQuotations = (props) => {
       pageNo: query.currentPage,
       pageSize: query.pageSize
     }
-    console.log('query', queryObj)
     try {
       const result = await fetchQuotations(queryObj)
       if(result?.meta) {

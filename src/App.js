@@ -1,7 +1,7 @@
 import "antd/dist/antd.less";
 //import "./App.less"
 import { Switch, Route, Redirect } from 'react-router-dom'
-import React, { useEffect } from "react";
+import React from "react";
 import { Spin } from "antd";
 import { DEPARTMENTS_ROUTE, HOME_ROUTE, LOGIN_ROUTE, EMPLOYEE_ROUTE, MY_REQUESTS_ROUTE, PROCUREMENT_ROUTE, DASHBOARD_ROUTE } from "./util/routes";
 import './styles/app.less'
@@ -34,7 +34,6 @@ const PaymentsModule = React.lazy(() => import("./containers/Payment"))
 
 
 function App(props) {
-  const { authUser, fetchNotifications } = props
   return (
     <>
       <React.Suspense fallback={<Spin />}>

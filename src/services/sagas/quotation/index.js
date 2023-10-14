@@ -6,6 +6,7 @@ import {
   updateQuotation as updateQuotationApi,
   createQuotation as createQuotationApi,
   generateQuotationForUnregisteredSupplier,
+  approveQuotation as approveQuotationApi
 } from '../../api/quotation'
 import openNotification from '../../../util/notification'
 import { message } from 'antd'
@@ -13,7 +14,6 @@ import { RESPONSE_SUCCESS_CODE } from '../../api/apiRequest'
 
 
 export function* fetchQuotations(action) {
-  console.log('fetch quotations saga', action)
   try {
     const response = yield call(getAllQuotationsApi, action.query)
     if(response.status === RESPONSE_SUCCESS_CODE) {
@@ -25,9 +25,11 @@ export function* fetchQuotations(action) {
       yield put(Creators.fetchQuotationsFailure(response.message))
     }
   } catch (error) {
-    const errorMsg = error?.response?.data?.message || error?.response?.data  || "Failed to fetch Quotations"
+    console.log('my error', error?.response?.data)
+    const errorMsg = error?.response?.data?.error || error?.response?.message  || "Failed to fetch Quotations"
+    console.log('--------> error', error)
     openNotification('error', 'FETCH QUOTATIONS', errorMsg)
-    yield put(Creators.fetchQuotationsFailure(message))
+    yield put(Creators.fetchQuotationsFailure(errorMsg))
   }
 }
 
@@ -50,6 +52,27 @@ export function* updateQuotation(action) {
     const message = (error && error.response.data && error.response.data.error) || 'Failed to fetch Employees'
     openNotification('error', 'Login', message)
     yield put(Creators.updateQuotationFailure(message))
+  }
+}
+
+export function* approveQuotation(action) {
+  const {payload} = action
+  try {
+    const response = yield call(approveQuotationApi, payload)
+    
+    if(response.status === 'SUCCESS' || response.status === "OK") {
+      const responseData = response?.data
+      yield put(Creators.approveQuotationSuccess(responseData))
+      openNotification('success', 'Approve Quotation', response.message)
+      //yield put(Creators.fetchQuotations({}))
+    } else {
+      openNotification('error', 'Approve Quotation', response.message)
+      yield put(Creators.approveQuotationFailure(response.message))
+    }
+  } catch (error) {
+    const message = (error && error?.response?.data && error?.response?.data.error) || 'Failed to Approve quotation'
+    openNotification('error', 'Approve Quotation', message)
+    yield put(Creators.approveQuotationFailure(message))
   }
 }
 
@@ -99,6 +122,10 @@ export function* watchFetchQuotations(action) {
 
 export function* watchUpdateQuotation(action) {
   yield takeLatest(Types.UPDATE_QUOTATION, updateQuotation)
+}
+
+export function* watchApproveQuotation(action) {
+  yield takeLatest(Types.APPROVE_QUOTATION, approveQuotation)
 }
 
 export function* watchCreateQuotation(action) {
